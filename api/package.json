@@ -7,12 +7,20 @@
     "url": "https://github.com/SegersIan/helm-rest-api"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "keywords": ["helm", "kubernetes", "API"],
+  "keywords": [
+    "helm",
+    "kubernetes",
+    "API"
+  ],
   "author": "iansegers@gmail.com",
   "license": "ISC",
   "dependencies": {
     "express": "4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }

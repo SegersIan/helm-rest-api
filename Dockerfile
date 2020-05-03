@@ -12,7 +12,8 @@ COPY api/ api/
 
 WORKDIR /app/api
 
-RUN npm i
+ENV NODE_ENV=production
+RUN npm i --only=production
 
 EXPOSE 3000
 
