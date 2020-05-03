@@ -1,2 +1,3 @@
-# helm-rest-api
-Helm-as-a-rest-API
+# Helm Rest API
+
+Ever needed a "REST API" for helm for automated installed
