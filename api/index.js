@@ -6,5 +6,6 @@ const middleware = require('./middleware');
 app.get('/', middleware.getVersion);
 app.get('/version', middleware.getVersion);
 app.get('/list', middleware.getReleases);
+app.post('/install', middleware.installRelease);
 
 app.listen(configuration.server.port, () => `${configuration.name} listening on port ${configuration.server.port}`)
