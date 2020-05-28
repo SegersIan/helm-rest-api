@@ -8,5 +8,6 @@ module.exports = async (req, res) => {
         res.send(JSON.stringify(releases, null, 4));
     } catch (error) {
         console.error(error);
+        res.send(error.toString());
     }
 }
