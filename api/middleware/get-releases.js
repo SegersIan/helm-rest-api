@@ -1,17 +1,18 @@
 const request = require('request-promise-native');
+const yaml = require('js-yaml');
+const uuid = require('uuid');
 
 const config = require('../configuration');
-const {run} = require('../helm');
+const {run, createKubeConfig} = require('../helm');
 
 module.exports = async (req, res) => {
     try {
-        //const output = await run('list --output json');
-        //const releases = JSON.parse(output.stdOut);
-        //res.send(JSON.stringify(releases, null, 4));
-
-        const kc = await getKubeConfig();
+        const kubeConfigFile = `kc-${uuid.v4()}`
+        const kc = await getKubeConfig(kubeConfigFile);
+        const output = await run(`list --output json --kubeconfig /app/api/temp/${kubeConfigFile}`);
+        const releases = JSON.parse(output.stdOut);
         res.setHeader('Content-Type', 'text/plain');
-        res.send(kc);
+        res.send(JSON.stringify(releases, null, 4));
 
     } catch (error) {
         console.error(error);
@@ -19,9 +20,9 @@ module.exports = async (req, res) => {
     }
 }
 
-async function getKubeConfig() {
+async function getKubeConfig(kubeConfigFile) {
     const token = await getManagedIdentity();
-    return getAdminCredentials(token);
+    return getAdminCredentials(token, kubeConfigFile);
 }
 
 async function getManagedIdentity(resource = "https://management.azure.com") {
@@ -39,7 +40,7 @@ async function getManagedIdentity(resource = "https://management.azure.com") {
     return JSON.parse(response);
 }
 
-async function getAdminCredentials({access_token, token_type}) {
+async function getAdminCredentials({access_token, token_type}, kubeConfigFile) {
     const response = await request({
         method: "post",
         url: `https://management.azure.com/subscriptions/${config.aks.subscriptionId}/resourceGroups/${config.aks.resourceGroup}/providers/Microsoft.ContainerService/managedClusters/${config.aks.name}/listClusterAdminCredential`,
@@ -53,5 +54,9 @@ async function getAdminCredentials({access_token, token_type}) {
     })
     const {kubeconfigs} = JSON.parse(response);
     const {value} = kubeconfigs[0];
-    return Buffer.from(value, 'base64').toString('utf-8');
+    await createKubeConfig(kubeConfigFile, toYaml(value))
+}
+
+function toYaml(base64Value) {
+    return Buffer.from(base64Value, 'base64').toString('utf-8');
 }

@@ -14,6 +14,7 @@ RUN mkdir api/
 COPY api/ api/
 
 WORKDIR /app/api
+RUN mkdir temp/
 
 ENV NODE_ENV=production
 RUN npm i --only=production

@@ -21,8 +21,10 @@
     "@azure/arm-containerservice": "^11.0.0",
     "@azure/ms-rest-nodeauth": "^3.0.4",
     "express": "4.17.1",
+    "js-yaml": "^3.14.0",
     "request": "^2.88.2",
-    "request-promise-native": "^1.0.8"
+    "request-promise-native": "^1.0.8",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"
