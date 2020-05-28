@@ -1,7 +1,4 @@
-#FROM node:12.16.3-alpine3.11
-FROM node:12.16.3
-
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+FROM node:12.16.3-alpine3.11
 
 RUN mkdir /app
 
