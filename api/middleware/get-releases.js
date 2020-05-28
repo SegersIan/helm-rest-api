@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         const kc = await getKubeConfig(kubeConfigFile);
         const output = await run(`list --output json --kubeconfig /app/api/temp/${kubeConfigFile}`);
         const releases = JSON.parse(output.stdOut);
-        res.setHeader('Content-Type', 'text/plain');
+        res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(releases, null, 4));
 
     } catch (error) {
