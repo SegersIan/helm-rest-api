@@ -3,7 +3,7 @@ DOCKER_TAG := latest
 
 build:
 	echo "Build docker image with '$(DOCKER_TAG)' tag."
-	docker build --file Dockerfile --no-cache -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
+	docker build --file Dockerfile -t $(DOCKER_IMAGE):$(DOCKER_TAG) .
 
 publish:
 	echo "Push docker image to Docker Hub."

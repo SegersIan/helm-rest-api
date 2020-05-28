@@ -21,8 +21,9 @@ module.exports = async (req, res) => {
 
 async function getKubeConfig() {
     const token = await getManagedIdentity();
-    console.log(token);
+    //console.log(token);
     return getAdminCredentials(token);
+    //return token;
 }
 
 async function getManagedIdentity(resource = "https://management.azure.com") {
