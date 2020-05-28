@@ -21,9 +21,7 @@ module.exports = async (req, res) => {
 
 async function getKubeConfig() {
     const token = await getManagedIdentity();
-    //console.log(token);
     return getAdminCredentials(token);
-    //return token;
 }
 
 async function getManagedIdentity(resource = "https://management.azure.com") {
@@ -53,5 +51,7 @@ async function getAdminCredentials({access_token, token_type}) {
             "Content-type": "application/json"
         }
     })
-    return JSON.parse(response);
+    const {kubeconfigs} = JSON.parse(response);
+    const {value} = kubeconfigs[0];
+    return Buffer.from(value, 'base64').toString('utf-8');
 }
